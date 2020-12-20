@@ -30,18 +30,15 @@ fn read_points(filename: &str) -> std::io::Result<LineString<f32>> {
         .from_reader(f);
 
     let points = rdr.deserialize()
-        .map(|result| -> Option<Coordinate<f32>> {
+        .map(|result| -> Option<Coord> {
             match result {
-                Ok(v) => {
-                    let c: Coord = v;
-                    Some(Coordinate { x: c.x, y: c.y })
-                },
-
+                Ok(coord) => Some(coord),
                 _ => None,
             }
         })
-        .filter(|x| x.is_some())
-        .map(|x| x.unwrap())
+        .filter(|option| option.is_some())
+        .map(|option| option.unwrap())
+        .map(|coord| -> Coordinate<f32> { Coordinate { x: coord.x, y: coord.y } })
         .collect();
 
     let ls = LineString(points);
