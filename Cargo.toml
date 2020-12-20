@@ -10,6 +10,9 @@ edition = "2018"
 csv = "1.1.5"
 geo = "0.16.0"
 geo-types = "0.6.2"
-geos = "7.0.0"
 serde = { version = "1.0.118", features = ["derive"] }
 wkt = "0.8.0"
+
+[features]
+default = [ "with-serde" ]
+with-serde = []
