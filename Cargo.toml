@@ -1,0 +1,15 @@
+[package]
+name = "rustg"
+version = "0.1.0"
+authors = ["Andrew Libby <alibby@andylibby.org>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+csv = "1.1.5"
+geo = "0.16.0"
+geo-types = "0.6.2"
+geos = "7.0.0"
+serde = { version = "1.0.118", features = ["derive"] }
+wkt = "0.8.0"
