@@ -46,12 +46,10 @@ fn read_points(filename: &str) -> std::io::Result<LineString<f32>> {
 }
 
 fn main() -> std::io::Result<()> {
-    let args: Vec<String> = env::args().collect();
-    let filename = &args[1];
-
-    let ls = read_points(filename)?;
-
-    println!("{}", make_wkt_string(ls));
+    env::args().skip(1).for_each(|filename: String| {
+        let ls = read_points(&filename[..]).unwrap();
+        println!("{}", make_wkt_string(ls));
+    });
 
     Ok(())
 }
