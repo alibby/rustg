@@ -28,13 +28,21 @@ fn read_points(filename: &str) -> std::io::Result<LineString<f32>> {
         .has_headers(false)
         .trim(csv::Trim::All)
         .from_reader(f);
-    let mut points = Vec::new();
 
-    for result in rdr.deserialize() {
-        let coord : Coord = result?;
-        let ct = Coordinate { x: coord.x, y: coord.y };
-        points.push(ct);
-    }
+    let points = rdr.deserialize()
+        .map(|result| -> Option<Coordinate<f32>> {
+            match result {
+                Ok(v) => {
+                    let c: Coord = v;
+                    Some(Coordinate { x: c.x, y: c.y })
+                },
+
+                _ => None,
+            }
+        })
+        .filter(|x| x.is_some())
+        .map(|x| x.unwrap())
+        .collect();
 
     let ls = LineString(points);
     Ok(ls)
